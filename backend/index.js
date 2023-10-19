@@ -1,17 +1,17 @@
 const express = require("express");
-//const cors = require("cors");
-// var path = require('path');
+const cors = require("cors");
+var path = require('path');
 
 const app = express();
 
 // public directory
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// var corsOptions = {
-//   origin: "*"
-// };
+var corsOptions = {
+  origin: "*"
+};
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to multer application."});
 });
 
-// require("./routes/bicycle.routes")(app);
+require("./routes/item.routes")(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

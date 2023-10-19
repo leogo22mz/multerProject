@@ -1,25 +1,21 @@
 const db = require("../models");
-const item = db.item;
+const Item = db.items;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Bicycle
 exports.create = (req, res) => {
-  // Validate request
   if (!req.body.brand || !req.body.model){
     res.status(400).send({
       message: "Content cannot be empty!"
     });
   }
 
-  // Create a Bicycle
   const item = {
     brand: req.body.brand,
     model: req.body.model,
     filename: req.file ? req.file.filename : ""
   }
 
-  // Save Bicycle in the database
-  item.create(item).then(data => {
+  Item.create(item).then(data => {
     res.send(data);
   }).catch(err => {
     res.status(500).send({
@@ -28,9 +24,8 @@ exports.create = (req, res) => {
   });
 };
 
-// Retrieve all Bicycles from the database.
 exports.findAll = (req, res) => {
-  item.findAll().then(data => {
+  Item.findAll().then(data => {
     res.send(data);
   }).catch(err => {
     res.status(500).send({
@@ -39,17 +34,8 @@ exports.findAll = (req, res) => {
   })
 };
 
-// Find a single Bicycle with an id
-exports.findOne = (req, res) => {
+exports.findOne = (req, res) => {}
 
-}
+exports.update = (req, res) => {};
 
-// Update a Bicycle by the id in the request
-exports.update = (req, res) => {
-
-};
-
-// Delete a Bicycle with the specified id in the request
-exports.delete = (req, res) => {
-
-};
+exports.delete = (req, res) => {};
