@@ -1,5 +1,7 @@
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ItemService } from '../services/item.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +15,18 @@ export class HomePage implements OnInit {
     item_quantity: '',
     item_description: '',
   };
+  newItemForm: FormGroup;
 
-  constructor(private itemService: ItemService) {}
-
+  constructor(private itemService: ItemService, private router: Router, private formBuilder: FormBuilder) {
+    // Inicializa el FormGroup y define las validaciones
+    this.newItemForm = this.formBuilder.group({
+      item_name: ['', Validators.required],
+      item_quantity: ['', Validators.required],
+      item_description: ['', Validators.required],
+      file: [null], // Elimina Validators.required para no marcarlo como obligatorio
+    });
+  }
+  
   ngOnInit() {
     this.getAllItems();
   }
@@ -28,35 +39,49 @@ export class HomePage implements OnInit {
 
   onFileSelected(event: any) {
     const inputElement = event.target as HTMLInputElement;
-
+  
     if (inputElement && inputElement.files && inputElement.files.length > 0) {
-      this.newItem.file = inputElement.files[0];
+      this.newItemForm.get('file')?.setValue(inputElement.files[0]);
     } else {
-      this.newItem.file = null;
+      this.newItemForm.get('file')?.setValue(null);
     }
   }
+  
 
   addNewItem() {
-    const formData = new FormData();
-  formData.append('item_name', this.newItem.item_name);
-  formData.append('item_quantity', this.newItem.item_quantity);
-  formData.append('item_description', this.newItem.item_description);
-  formData.append('file', this.newItem.file);
-
-  this.itemService.createItem(formData).subscribe(
-    (response: any) => {
-      console.log('Item added successfully.', response);
-      this.newItem = {}; 
-      this.getAllItems();
-    },
-    (error: any) => {
-      console.error('Error adding item:', error);
+    if (this.newItemForm.valid) {
+      const formData = new FormData();
+      formData.append('item_name', this.newItemForm.get('item_name')?.value);
+      formData.append('item_quantity', this.newItemForm.get('item_quantity')?.value);
+      formData.append('item_description', this.newItemForm.get('item_description')?.value);
+      
+      const fileControl = this.newItemForm.get('file');
+      if (fileControl) {
+        const file = fileControl.value;
+        if (file) {
+          formData.append('file', file);
+        }
+      }
+  
+      this.itemService.createItem(formData).subscribe(
+        (response: any) => {
+          console.log('Item added successfully.', response);
+          this.getAllItems();
+        },
+        (error: any) => {
+          console.error('Error adding item:', error);
+        }
+      );
     }
-  );
   }
-
+  
+  
+  
+  
+  
+  
   deleteItem(id: number) {
-    if (confirm("Are you sure you want to delete this item?")) {
+    if (confirm('Are you sure you want to delete this item?')) {
       this.itemService.deleteItem(id).subscribe(
         (response: any) => {
           console.log('Item deleted successfully.', response);
@@ -68,6 +93,4 @@ export class HomePage implements OnInit {
       );
     }
   }
-  
-  
 }

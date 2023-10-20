@@ -4,29 +4,33 @@
     <ion-title>
       Multer-ventory
     </ion-title><br>
-    <form (ngSubmit)="addNewItem()">
+    <form [formGroup]="newItemForm" (ngSubmit)="addNewItem()" enctype="multipart/form-data">
       <ion-item>
-        <ion-label position="floating">Item</ion-label>
-        <ion-input type="text" placeholder="Item name" [(ngModel)]="newItem.item_name" name="item_name"></ion-input>
+        <ion-label position="floating">Item*</ion-label>
+        <ion-input type="text" placeholder="Item name" formControlName="item_name"></ion-input>
       </ion-item>
           
       <ion-item>
-        <ion-label position="floating">Quantity</ion-label>
-        <ion-input type="number" placeholder="Quantity of the item" [(ngModel)]="newItem.item_quantity" name="item_quantity"></ion-input>
+        <ion-label position="floating">Quantity*</ion-label>
+        <ion-input type="number" placeholder="Quantity of the item" formControlName="item_quantity"></ion-input>
       </ion-item>
           
       <ion-item>
-        <ion-label position="floating">Description</ion-label>
-        <ion-textarea rows="4" placeholder="Description" [(ngModel)]="newItem.item_description" name="item_description"></ion-textarea>
+        <ion-label position="floating">Description*</ion-label>
+        <ion-textarea rows="4" placeholder="Description" formControlName="item_description"></ion-textarea>
       </ion-item>
       
       <ion-item>
-        <ion-label>Image</ion-label>
-        <ion-input type="file" (change)="onFileSelected($event)" name="item_image"></ion-input>
+        <ion-label>Image (Optional)</ion-label>
+        <ion-input type="file" (change)="onFileSelected($event)" name="file"></ion-input>
       </ion-item>
-
-      <ion-button type="submit" expand="block">ADD</ion-button>
+      
+      
+    
+      <ion-button type="submit" expand="block" [disabled]="!newItemForm.valid">ADD</ion-button>
     </form>
+    
+    
 
     <br>
     <table class="inventall-table">
