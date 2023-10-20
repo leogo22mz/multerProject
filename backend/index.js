@@ -4,7 +4,6 @@ var path = require('path');
 
 const app = express();
 
-// public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
 var corsOptions = {
@@ -18,10 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const db = require("./models");
-// normal use. Doesn't delete the database data
 // db.sequelize.sync();
 
-// In development, you may need to drop existing tables and re-sync database
 db.sequelize.sync({ force: true }).then(() => {
   console.log("Drop and re-sync db.");
 });
@@ -31,6 +28,11 @@ app.get("/", (req, res) => {
 });
 
 require("./routes/item.routes")(app);
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

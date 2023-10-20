@@ -1,15 +1,20 @@
 module.exports = (sequelize, Sequelize) => {
-  const item = sequelize.define("item", {
-    brand: {
+  const Item = sequelize.define("item", {
+    item_name: {
       type: Sequelize.STRING
     },
-    model: {
+    item_quantity: {
+      type: Sequelize.STRING
+    },    
+    item_description: {
       type: Sequelize.STRING
     },
     filename: {
       type: Sequelize.STRING
-    }
+    },
+  }, {
+    timestamps: true,
   });
 
-  return item;
+  return Item;
 }
