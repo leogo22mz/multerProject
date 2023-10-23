@@ -17,7 +17,6 @@ This project is a full-stack web application developed with Angular, Ionic, Expr
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Routes](#api-routes)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Installation
@@ -43,4 +42,4 @@ This project is a full-stack web application developed with Angular, Ionic, Expr
 
 ## License
 
-This project is licensed under the Leonel Cruz Go(LICENSE)
+This project is licensed under the [LICENSE]Leonel Cruz Go
