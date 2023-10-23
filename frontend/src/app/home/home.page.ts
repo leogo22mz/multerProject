@@ -2,6 +2,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ItemService } from '../services/item.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { UpdateItemComponent } from '../components/update-item/update-item.component';
 
 @Component({
   selector: 'app-home',
@@ -17,13 +19,12 @@ export class HomePage implements OnInit {
   };
   newItemForm: FormGroup;
 
-  constructor(private itemService: ItemService, private router: Router, private formBuilder: FormBuilder) {
-    // Inicializa el FormGroup y define las validaciones
+  constructor(private itemService: ItemService, private router: Router, private modalController: ModalController, private formBuilder: FormBuilder) {
     this.newItemForm = this.formBuilder.group({
       item_name: ['', Validators.required],
       item_quantity: ['', Validators.required],
       item_description: ['', Validators.required],
-      file: [null], // Elimina Validators.required para no marcarlo como obligatorio
+      file: [null], 
     });
   }
   
@@ -93,4 +94,13 @@ export class HomePage implements OnInit {
       );
     }
   }
+
+  async openUpdatePopup() {
+    const modal = await this.modalController.create({
+      component: UpdateItemComponent, // El componente a mostrar en la ventana emergente
+      componentProps: {} // Parámetros que puedes pasar al componente si es necesario
+    });
+    return await modal.present();
+  }
+  
 }

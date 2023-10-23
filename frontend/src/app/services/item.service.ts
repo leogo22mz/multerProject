@@ -20,5 +20,15 @@ export class ItemService {
     const url = `${this.endPoint}/${id}`;
     return this.httpClient.delete(url);
   }
+  updateItem(itemId: number, updatedData: any) {
+    const url = `${this.endPoint}/${itemId}`;
+    return this.httpClient.put(url, updatedData);
+  }
+
+  getItemById(itemId: number) {
+    const url = `${this.endPoint}/${itemId}`;
+    return this.httpClient.get(url);
+  }
+  
   
 }
