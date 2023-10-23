@@ -42,4 +42,4 @@ This project is a full-stack web application developed with Angular, Ionic, Expr
 
 ## License
 
-This project is licensed under the [LICENSE]Leonel Cruz Go
+This project is licensed under the Leonel Cruz Go
